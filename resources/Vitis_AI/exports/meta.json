@@ -1,0 +1,8 @@
+{
+    "lib": "libvart-dpu-runner.so",
+    "filename": "mobilenetCIFAR.xmodel",
+    "kernel": [
+        "subgraph_MobileNetV2__MobileNetV2_12401_fix"
+    ],
+    "target": "DPUCVDX8G_ISA3_C32B6"
+}
