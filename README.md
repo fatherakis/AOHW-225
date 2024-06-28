@@ -33,11 +33,11 @@ This notebook generates examples for all training iterations and as such it requ
 Step 3: Re-train MobileNetV2 on generated examples
 
 Steps 2 and 3 should run in conjunction with each other: generate examples -> retrain model.\
-For this reason, [Ader_Train_separate](resources/Model_Resources/Adver_Train_separate/) folder, contains a retrain notebook for each Adversarial Training iteration. Otherwise, [MobileNet_Adversrial_Training](resources/Model_Resources/MobileNet_Adversarial_Training.ipynb) notebook provides the same functionality with all training iterations combined.
+For this reason, [Ader_Train_separate](resources/Model_Resources/Adver_Train_separate/) folder, contains a retrain notebook for each Adversarial Training iteration. Otherwise, [MobileNet_Adversarial_Training](resources/Model_Resources/MobileNet_Adversarial_Training.ipynb) notebook provides the same functionality with all training iterations combined.
 
 Step 4: Quantization
 
-Simply run [MobileNet_Adversrial_PTSQ](resources/Model_Resources/MobileNet_Adversarial_PTSQ.ipynb) notebook through jupyter in order to Quantize and export the model in each training iteration (1, 2, 3)
+Simply run [MobileNet_Adversarial_PTSQ](resources/Model_Resources/MobileNet_Adversarial_PTSQ.ipynb) notebook through jupyter in order to Quantize and export the model in each training iteration (1, 2, 3)
 
 Step 5: Metrics Generation
 
@@ -53,7 +53,7 @@ Finishing with our adversarial retraining procedure, lets quantize and convert o
 ### Setup 
 Step 1: Install [Docker](https://www.docker.com/).
 
-Step 2: Clone [Vitis-AI 3.0]() repository.\
+Step 2: Clone [Vitis-AI 3.0](https://github.com/Xilinx/Vitis-AI) repository.\
 ``git clone --branch 3.0 https://github.com/Xilinx/Vitis-AI.git``\
 
 Step 3: Pull VitisAI Docker Container.\
