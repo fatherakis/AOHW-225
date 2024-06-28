@@ -8,6 +8,7 @@
 
 MODELFILE=$2
 
+NUMEX=$3
 
 #clean
 clean_(){
@@ -60,7 +61,7 @@ echo " "
 cd model_src
 ./cnn_inf ./${MODELFILE}.xmodel ./test/ ./cifar10_labels.dat | tee ./rpt/predictions_${MODELFILE}.log
 # check DPU prediction accuracy
-bash -x ./cifar10_performance.sh ${MODELFILE}
+bash -x ./cifar10_performance.sh ${MODELFILE} ${NUMEX}
 echo "PWD4 = " $PWD
 cd ..
 }

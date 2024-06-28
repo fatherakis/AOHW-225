@@ -7,4 +7,4 @@
 # date:  10 Aug. 2023
 
 
-source ./model_src/run_all_cifar10_target.sh   main mobilenetCIFAR
+source ./model_src/run_all_cifar10_target.sh main mobilenetCIFAR $1

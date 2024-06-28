@@ -8,11 +8,12 @@
 
 MODELFILE=$1
 
+NUMEX=$2
 # check DPU prediction top1_accuracy
 echo " "
 echo "${MODELFILE} TOP5 ACCURACY"
 echo " "
-python3 ./code/src/check_runtime_top5_cifar10.py -n 10000 -i ./rpt/predictions_${MODELFILE}.log | tee ./rpt/results_${MODELFILE}.log
+python3 ./code/src/check_runtime_top5_cifar10.py -n ${NUMEX} -i ./rpt/predictions_${MODELFILE}.log | tee ./rpt/results_${MODELFILE}.log
 
 
 echo " "
