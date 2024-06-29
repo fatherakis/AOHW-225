@@ -19,27 +19,27 @@ In this segment we first generate adversarial examples using HopSkipJumpAttack a
 
 As such this segment is purely for demonstration purposes. (Fully functional but not advised to execute.)
 
-Step 1: Install all python dependencies.\
+* Step 1: Install all python dependencies.\
 ``./dependencies.sh`` 
 > [!Important]
 > If you use pip instead of pip3 for python3  you need to update the script accordingly.
 
-Step 2: Generate Adversarial Examples for each adversarial iteration.
+* Step 2: Generate Adversarial Examples for each adversarial iteration.
 
 Run the [MobileNet_Adversarial_Example_Gen](resources/Model_Resources/MobileNet_Adversarial_Example_Gen.ipynb) jupyter notebook.
 
 This notebook generates examples for all training iterations and as such it requires the corresponding trained versions (eg. generation of 2nd set of examples requires the model trained on the 1st set). All model sub-versions are loaded from our drive by default.
 
-Step 3: Re-train MobileNetV2 on generated examples
+* Step 3: Re-train MobileNetV2 on generated examples
 
 Steps 2 and 3 should run in conjunction with each other: generate examples -> retrain model.\
 For this reason, [Ader_Train_separate](resources/Model_Resources/Adver_Train_separate/) folder, contains a retrain notebook for each Adversarial Training iteration. Otherwise, [MobileNet_Adversarial_Training](resources/Model_Resources/MobileNet_Adversarial_Training.ipynb) notebook provides the same functionality with all training iterations combined.
 
-Step 4: Quantization
+* Step 4: Quantization
 
 Simply run [MobileNet_Adversarial_PTSQ](resources/Model_Resources/MobileNet_Adversarial_PTSQ.ipynb) notebook through jupyter in order to Quantize and export the model in each training iteration (1, 2, 3)
 
-Step 5: Metrics Generation
+* Step 5: Metrics Generation
 
 Run [Mobilenet_Adversarial_Metrics_Gen](resources/Model_Resources/MobileNet_Adversarial_Metrics_Gen.ipynb) notebook to generate adversarial examples on the test set for each model version (8  versions: 4 floating point & 4 int8 quantized).\
 A PSNR difference calculation for each model version is also included.
@@ -51,53 +51,53 @@ Finishing with our adversarial retraining procedure, lets quantize and convert o
 > [!CAUTION]
 > Our board Versal AI Core Series VCK190 requires use of VitisAI 3.0
 ### Setup 
-Step 1: Install [Docker](https://www.docker.com/).
+* Step 1: Install [Docker](https://www.docker.com/).
 
-Step 2: Clone [Vitis-AI 3.0](https://github.com/Xilinx/Vitis-AI) repository.\
+* Step 2: Clone [Vitis-AI 3.0](https://github.com/Xilinx/Vitis-AI) repository.\
 ``git clone --branch 3.0 https://github.com/Xilinx/Vitis-AI.git``\
 
-Step 3: Pull VitisAI Docker Container.\
+* Step 3: Pull VitisAI Docker Container.\
 ``docker pull xilinx/vitis-ai-python-cpu:latest``
 
-Step 4: Run Vitis Docker.\
+* Step 4: Run Vitis Docker.\
 ``cd <Vitis-AI install path>/Vitis-AI``\
 ``./docker_run.sh xilinx/vitis-ai-pytorch-cpu:latest``
 
 ### Quantization
 In this part we have VitisAI 3.0 up and running and we are ready to quantize our final (fp) model in order to run on versal.
 
-Step 5: Copy [Vitis_AI](resources/Vitis_AI/) folder in your VitisAI install path workspace.
+* Step 5: Copy [Vitis_AI](resources/Vitis_AI/) folder in your VitisAI install path workspace.
 
 **After copying**, in the docker container terminal:\
 ``cd Vitis_AI``
 
-Step 6: Enable the python environment in container.\
+* Step 6: Enable the python environment in container.\
 ``conda activate vitis-ai-pytorch``
 
-Step 7: Make sure we have pytorch installed.\
+* Step 7: Make sure we have pytorch installed.\
 ``pip install torch torchvision``
 
-Step 8: Extract CIFAR-10 set for calibration.\
+* Step 8: Extract CIFAR-10 set for calibration.\
 ``cd dataset``\
 ``tar -xf cifar.tar``
 
-Step 8.5: Go back.\
+* Step 8.5: Go back.\
 ``cd ..``
 
-Step 9: Run quantization script for calibration.\
+* Step 9: Run quantization script for calibration.\
 ``python mobilenet_cifar_model.py --data_dir Vitis_AI/dataset/cifar/ --model_dir Vitis_AI/ --quant_mode calib --target DPUCVDX8G_ISA3_C32B6``
 
 > [!IMPORTANT]
 > If you get an error for a missing file "MobileNetV2.py" or parameter issue, simply re-run the command and it should be fine.
 
-Step 10: Run test mode and deployment.
+* Step 10: Run test mode and deployment.
 
 ``python mobilenet_cifar_model.py --data_dir Vitis_AI/dataset/cifar/ --model_dir Vitis_AI/ --model_name --quant_mode test --batch_size 1 --target DPUCVDX8G_ISA3_C32B6 --deploy``
 
 
 ### Deployment
 
-Step 11: Prepare for board requirements.
+* Step 11: Prepare for board requirements.
 
 ``/workspace/board_setup/vck190/host_cross_compiler_setup.sh``
 
@@ -106,12 +106,14 @@ After its done you also have to run\
 ``source $install_path/environment-setup-cortexa72-cortexa53-xilinx-linux``\
 Where $install_path should be provided from the terminal output as the whole command.
 
-Step 12: Compile Quantized model for our device.
+* Step 12: Compile Quantized model for our device.
 
 ``vai_c_xir -x quantize_result/MobileNetV2_int.xmodel -a /opt/vitis_ai/compiler/arch/DPUCVDX8G/VCK190/arch.json -o ./ -n mobilenetCIFAR``
 
 
 ## Versal
+> [!Warning]
+> In this segment we assume our Versal Board is already set-up and ready with VitisAI using the provided user and setup guides
 
 Our model is retrained and ready. Now we can transfer our code available in [Versal_Files](resources/Versal_Files/) and deployed model to our board and run some tests.
 
@@ -142,29 +144,29 @@ https://drive.usercontent.google.com/download?id=1fDmjWv_jAE6xQb6aGHJ98fTFPWf0Q5
 > [!Note]
 > If you pick a different set other than the default test.tar don't forget to rename it to "test.tar"
 
-Step 1 (Optional): Move desired set in Versal_Files folder.
+* Step 1 (Optional): Move desired set in Versal_Files folder.
 
-Step 2: Compress archive for easier transfer.\
+* Step 2: Compress archive for easier transfer.\
 `` tar -cf versal.tar Versal_Files/``
 
-Step 3: Transfer to Versal via usb/microSD or remotely.\
+* Step 3: Transfer to Versal via usb/microSD or remotely.\
 For remote transfer: ``scp versal.tar <user>@<versal_ip>:~/``
 
-Step 4: **On versal**, extract the archive.\
+* Step 4: **On versal**, extract the archive.\
 ``tar -xf versal.tar``
 ``cd Versal_Files``
 
-Step 5: Run the model.\
+* Step 5: Run the model.\
 ``./run_src.sh <#examples>``
 
 Where <#examples> should be the number of examples in the dataset (1000 for default, 400 for our generated ones).
 
-Step 6: Retrieve all results from rpt folder.\
+* Step 6: Retrieve all results from rpt folder.\
 ``mv model_src/rpt ~/``
 ``cd ..``
 
-Step 7: Compress results to further examine on your own device.\
+* Step 7: Compress results to further examine on your own device.\
 ``tar -cf results.tar rpt/``
 
-Step 8: Retrieve the archive via usb/microSD or remotely.\
+* Step 8: Retrieve the archive via usb/microSD or remotely.\
 For remote acquisition: ``scp <user>@<versal_ip>:~/results.tar ~/Downloads/``
