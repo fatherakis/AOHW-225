@@ -85,14 +85,14 @@ In this part we have VitisAI 3.0 up and running and we are ready to quantize our
 ``cd ..``
 
 * Step 9: Run quantization script for calibration.\
-``python mobilenet_cifar_model.py --data_dir Vitis_AI/dataset/cifar/ --model_dir Vitis_AI/ --quant_mode calib --target DPUCVDX8G_ISA3_C32B6``
+``python mobilenet_cifar_model.py --data_dir dataset/cifar/ --model_dir ./ --quant_mode calib --target DPUCVDX8G_ISA3_C32B6``
 
 > [!IMPORTANT]
 > If you get an error for a missing file "MobileNetV2.py" or parameter issue, simply re-run the command and it should be fine.
 
 * Step 10: Run test mode and deployment.
 
-``python mobilenet_cifar_model.py --data_dir Vitis_AI/dataset/cifar/ --model_dir Vitis_AI/ --model_name --quant_mode test --batch_size 1 --target DPUCVDX8G_ISA3_C32B6 --deploy``
+``python mobilenet_cifar_model.py --data_dir dataset/cifar/ --model_dir ./ --model_name --quant_mode test --batch_size 1 --target DPUCVDX8G_ISA3_C32B6 --deploy``
 
 
 ### Deployment
